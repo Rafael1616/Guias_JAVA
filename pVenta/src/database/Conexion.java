@@ -2,6 +2,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLDataException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -13,7 +14,8 @@ public class Conexion {
     private final String PASSWORD =  "1234" ;
     
     public Connection connection ;
-    public Conexion(){
+    public static Conexion singleInstance;
+    private Conexion(){
         this.connection = null;
     }
     
@@ -23,6 +25,7 @@ public class Conexion {
             this.connection = DriverManager.getConnection(URL + DB, USER, PASSWORD);
         }catch (ClassNotFoundException | SQLException e){
             JOptionPane.showMessageDialog(null, e.getMessage());
+            System.exit(0);
         }
         return this.connection;
     }
@@ -34,4 +37,12 @@ public class Conexion {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
+    
+    public synchronized static Conexion getInstance(){
+        if(singleInstance == null){
+            singleInstance = new Conexion();
+        }
+        return singleInstance;
+    }
+       
 }
