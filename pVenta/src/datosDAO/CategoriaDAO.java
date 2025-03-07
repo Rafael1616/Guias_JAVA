@@ -1,5 +1,5 @@
 
-package database.datos;
+package datosDAO;
 
 import database.Conexion;
 import datos.interfaces.CRUDGeneralInterface;
